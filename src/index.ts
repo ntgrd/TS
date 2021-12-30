@@ -1,20 +1,57 @@
-import { renderSearchFormBlock } from './search-form.js'
-import { renderSearchStubBlock } from './search-results.js'
-import { renderUserBlock } from './user.js'
-import { renderToast } from './lib.js'
+import {getDataFromForm, renderSearchFormBlock, search} from './search-form.js'
+import {renderSearchStubBlock} from './search-results.js'
+import {renderUserBlock, User} from './user.js'
+import {renderToast} from './lib.js'
+
+const userData: User = {
+  name: 'Nata',
+  avatarUrl: '/img/avatar.png'
+};
+localStorage.setItem('user', JSON.stringify(userData));
+
+function getUserData() {
+  if (!window.localStorage) {
+    return null;
+  }
+  const userJson: unknown = JSON.parse(localStorage.getItem('user'));
+  if (!userJson) {
+    return null;
+  }
+  return userJson as User;
+};
+const actualUserData = getUserData();
+
+localStorage.setItem('favoritesAmount', '10');
+
+function getFavoritesAmount() {
+  if (!window.localStorage) {
+    return null;
+  }
+  const favoriteItemsAmount: unknown = localStorage.getItem('favoritesAmount');
+
+  return favoriteItemsAmount as number;
+};
+
+const actualFavoriteItemsAmount = getFavoritesAmount();
 
 window.addEventListener('DOMContentLoaded', () => {
-  // const checkInInput = document.getElementById('check-in-date');
-  // const inputHandler = function(e) {
-  //   result.innerHTML = e.target.value;
-  // }
-  // const checkInDate = checkInInput.value;
-
-  renderUserBlock('Ivan', '/img/avatar.png', 5);
-  renderSearchFormBlock('', '');
+  renderUserBlock(actualUserData.name, actualUserData.avatarUrl, actualFavoriteItemsAmount);
+  renderSearchFormBlock();
   renderSearchStubBlock();
   renderToast(
-      {text: 'Это пример уведомления. Используйте его при необходимости', type: 'success'},
-      {name: 'Понял', handler: () => {console.log('Уведомление закрыто')}}
+    {text: 'Это пример уведомления. Используйте его при необходимости', type: 'success'},
+    {
+      name: 'Понял', handler: () => {
+        console.log('Уведомление закрыто')
+      }
+    }
   )
+  const searchButton = document.getElementById('search-button') as HTMLButtonElement;
+  searchButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    search(getDataFromForm());
+
+
+  })
+
 })

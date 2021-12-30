@@ -1,10 +1,13 @@
 import { renderBlock } from './lib.js'
 
-export function renderUserBlock (userName: string, linkToUserAvatar: string, favoriteItemsAmount: number) {
+export interface User {
+  name: string;
+  avatarUrl: string;
+};
+
+export function renderUserBlock (userName: string, linkToUserAvatar: string, favoriteItemsAmount?: number) {
   const favoritesCaption = favoriteItemsAmount || 'ничего нет';
   const hasFavoriteItems = !!favoriteItemsAmount;
-
-  console.log('user', userName)
 
   renderBlock(
     'user-block',
