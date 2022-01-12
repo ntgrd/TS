@@ -1,6 +1,6 @@
 import {renderBlock} from './lib.js';
 import {getDateString, getNextDay, getPlusTwoDays} from "./date.js";
-import {callback} from "./place.js";
+import {Place, PlaceCallback} from "./place.js";
 
 export interface SearchFormData {
   city: string,
@@ -28,8 +28,25 @@ export function getDataFromForm() {
   return actualSearchData
 }
 
-export function search (actualSearchData): void {
-    console.log('actual', actualSearchData)
+async function getPossible() {
+  await new Promise((resolve) => setTimeout(resolve, 3000));
+  const possibility = Math.random();
+  const placesArray: Place[] = [];
+  if (possibility < 0.5) {
+    throw 'error'
+  } else {
+    console.log('possibility', placesArray)
+    return placesArray
+  }
+}
+
+export async function search(actualSearchData: SearchFormData, callback: PlaceCallback) {
+  try {
+    const response = await getPossible();
+    callback(null, response)
+  } catch (err) {
+    callback(err)
+  }
 }
 
 export function renderSearchFormBlock(checkInDate = getDateString(getNextDay()), checkOutDate = getDateString(getPlusTwoDays(checkInDate))) {

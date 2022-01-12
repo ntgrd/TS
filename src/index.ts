@@ -2,6 +2,8 @@ import {getDataFromForm, renderSearchFormBlock, search} from './search-form.js'
 import {renderSearchStubBlock} from './search-results.js'
 import {renderUserBlock, User} from './user.js'
 import {renderToast} from './lib.js'
+import {callback} from "./place.js";
+import {getTodosByCount} from "./getToDos.js";
 
 const userData: User = {
   name: 'Nata',
@@ -38,6 +40,7 @@ window.addEventListener('DOMContentLoaded', () => {
   renderUserBlock(actualUserData.name, actualUserData.avatarUrl, actualFavoriteItemsAmount);
   renderSearchFormBlock();
   renderSearchStubBlock();
+  getTodosByCount(2);
   renderToast(
     {text: 'Это пример уведомления. Используйте его при необходимости', type: 'success'},
     {
@@ -49,8 +52,7 @@ window.addEventListener('DOMContentLoaded', () => {
   const searchButton = document.getElementById('search-button') as HTMLButtonElement;
   searchButton.addEventListener('click', (event) => {
     event.preventDefault();
-    search(getDataFromForm());
-
+    search(getDataFromForm(), callback);
 
   })
 
