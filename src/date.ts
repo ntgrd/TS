@@ -16,7 +16,7 @@ export const getNextDay = () => {
   nextDay.setDate(nextDay.getDate() + 1).toString()
   return nextDay
 }
-export const getPlusTwoDays = (checkIn) => {
+export const getPlusTwoDays = (checkIn: string) => {
   const checkOut = new Date(checkIn)
   checkOut.setDate(checkOut.getDate() + 2).toString()
   return checkOut

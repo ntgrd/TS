@@ -1,12 +1,15 @@
-export function renderBlock (
+export function renderBlock(
   elementId: string,
   html: string
 ) {
   const element = document.getElementById(elementId)
-  element.innerHTML = html
+  if (element != null) {
+    return element.innerHTML = html
+  }
+  return 0
 }
 
-export function renderToast (message, action) {
+export function renderToast(message: any, action: any) {
   let messageText = ''
 
   if (message != null) {
@@ -25,7 +28,7 @@ export function renderToast (message, action) {
 
   const button = document.getElementById('toast-main-action')
   if (button != null) {
-    button.onclick = function() {
+    button.onclick = function () {
       if (action != null && action.handler != null) {
         action.handler()
       }
